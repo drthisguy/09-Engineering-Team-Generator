@@ -1,5 +1,7 @@
 const inquirer = require("inquirer"),
-      Manager = require("./lib/Manager");
+      Manager = require("./lib/Manager"),
+      Engineer = require("./lib/Engineer"),
+      Intern = require("./lib/Intern");
 
 (() => {
   
@@ -10,7 +12,7 @@ const inquirer = require("inquirer"),
       message: "Ready to build your engineering team?"
       },
     ])
-})().then( ({ready}) => ready ? newTeam() : console.log('Okay. we\'ll wait than...'))
+})().then(({ ready }) => ready ? newTeam() : console.log('Okay. we\'ll wait than...'))
 .catch( err => console.log(err)) 
 
 async function newTeam() {
@@ -18,9 +20,9 @@ async function newTeam() {
     promptUser().then(input => {
       promptManager().then(({ office }) => {
         m = new Manager(input.name, input.id, input.email, office);
-        console.log(`\nNew manager: "${m.name}" has been created.`);
+        console.log(`\nNew manager: "${m.name}" has been created.\n`);
         promptNew().then(add =>
-          add ? addEmployee() : console.log("generating...")
+          add ? promptType() : console.log("generating...")
         );
       });
     });
@@ -29,40 +31,44 @@ async function newTeam() {
   }
 }
 
- function addEmployee() {
+ function addEmployee(role) {
     try{
-    promptType().then(( {role} ) => {
-   
     switch (role[0]) {
         case 'Engineer':
             promptAdd().then( input => {
                 promptEngineer().then(({ github }) => {
                   e = new Engineer(input.name, input.id, input.email, github);
-                  console.log(`\nNew engineer: "${e.name}" has been created.`);
-                  promptNew().then(add =>
-                    add ? addEmployee() : console.log("generating...")
+                  console.log(`\nNew engineer: "${e.name}" has been created.\n`);
+                  promptNew().then( add =>
+                    add ? promptType() : console.log("generating...")
                   );
                 });
               });
-
             break;
         default:
-            return;
-           
+            promptAdd().then( input => {
+                promptIntern().then(({ school }) => {
+                  i = new Intern(input.name, input.id, input.email, school);
+                  console.log(`\nNew intern: "${i.name}" has been created.\n`);
+                  promptNew().then( add =>
+                    add ? promptType() : console.log("generating...")
+                  );
+                });
+              });
     }
- })
-    } catch(err){ err => console.log(err);}
+    } catch(err){console.log(err);}
  }
 
- function promptType() {
-    return inquirer.prompt([
+ async function promptType() {
+    const { role } = await inquirer.prompt(
     {
         type: "checkbox",
         name: "role",
         message: "What role will he/she have on your team?",
         choices: ["Engineer", "intern"]
     }
- ])
+ )
+    addEmployee(role);
 }
 
  function promptNew() {
@@ -71,8 +77,8 @@ async function newTeam() {
         type: "confirm",
         name: "add",
         message: "Should we add a new Employee to the team?"
-        },
-      ])
+        }
+    ])
   }
   
  function promptManager() {
@@ -91,6 +97,15 @@ async function newTeam() {
         type: "input",
         name: "github",
         message: "Enter his/her GitHub username:"
+        }
+    ])
+}
+  function promptIntern() {
+    return inquirer.prompt([
+        {
+        type: "input",
+        name: "school",
+        message: "What school does he or she attend?"
         }
     ])
 }
