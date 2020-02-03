@@ -16,18 +16,17 @@ function newTeam() {
       prompt.manager().then(({ office }) => {
         m = new Manager(input.name, input.id, input.email, office);
         console.log(`\nNew manager: "${m.name}" has been added to the team.\n`);
-        prompt.ask().then(({ add }) => add ? addEmployee() : console.log("Generating team webpage...")
-        );
+
+        prompt.ask().then(({ add }) => 
+            add ? addEmployee() : console.log("Generating team webpage..."));
       });
     });
-  } catch (err) {
-    console.log(err);
-  }
+  } catch (err) {console.log(err)}
 }
 
-  function addEmployee() {
+  async function addEmployee() {
     try{
-    prompt.type().then(({ role }) => { 
+    const { role } = await prompt.type()
 
     switch (role[0]) {
         case 'Engineer':
@@ -35,9 +34,9 @@ function newTeam() {
                 prompt.engineer().then(({ github }) => {
                   e = new Engineer(input.name, input.id, input.email, github);
                   console.log(`\nNew engineer: "${e.name}" has been added to the team.\n`);
+
                   prompt.ask().then(({ add }) =>
-                    add ? addEmployee() : console.log("Generating team webpage...")
-                  );
+                    add ? addEmployee() : console.log("Generating team webpage..."));
                 });
               });
             break;
@@ -46,11 +45,11 @@ function newTeam() {
                 prompt.intern().then(({ school }) => {
                   i = new Intern(input.name, input.id, input.email, school);
                   console.log(`\nNew intern: "${i.name}" has been added to the team.\n`);
+
                   prompt.ask().then(({ add }) =>
-                    add ? addEmployee() : console.log("Generating team webpage...")
-                  );
+                    add ? addEmployee() : console.log("Generating team webpage..."));
                 });
               });
-    }});
-    } catch(err){console.log(err);}
+        };
+    } catch(err){console.log(err)}
  }
