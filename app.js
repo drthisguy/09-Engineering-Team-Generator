@@ -16,7 +16,7 @@ const inquirer = require("inquirer"),
 async function newTeam() {
   try {
     promptUser().then(input => {
-      promptMan().then(({ office }) => {
+      promptManager().then(({ office }) => {
         m = new Manager(input.name, input.id, input.email, office);
         console.log(`\nNew manager: "${m.name}" has been created.`);
         promptNew().then(add =>
@@ -29,28 +29,40 @@ async function newTeam() {
   }
 }
 
- async function addEmployee() {
-    const role = await promptType();
-
-    switch (role) {
-        case Engineer:
-            
-            break;
-    
-        default:
-            break;
-    }
+ function addEmployee() {
+    try{
+    promptType().then(( {role} ) => {
    
-}
+    switch (role[0]) {
+        case 'Engineer':
+            promptAdd().then( input => {
+                promptEngineer().then(({ github }) => {
+                  e = new Engineer(input.name, input.id, input.email, github);
+                  console.log(`\nNew engineer: "${e.name}" has been created.`);
+                  promptNew().then(add =>
+                    add ? addEmployee() : console.log("generating...")
+                  );
+                });
+              });
+
+            break;
+        default:
+            return;
+           
+    }
+ })
+    } catch(err){ err => console.log(err);}
+ }
+
  function promptType() {
     return inquirer.prompt([
     {
         type: "checkbox",
         name: "role",
-        message: "What role with he/she have on your team?",
+        message: "What role will he/she have on your team?",
         choices: ["Engineer", "intern"]
     }
-])
+ ])
 }
 
  function promptNew() {
@@ -63,18 +75,27 @@ async function newTeam() {
       ])
   }
   
- function promptMan() {
+ function promptManager() {
     return inquirer.prompt([
         {
         type: "number",
         name: "office",
-        message: "Enter your office room number."
+        message: "Enter your office room number:"
         }
     ])
   }
 
+  function promptEngineer() {
+    return inquirer.prompt([
+        {
+        type: "input",
+        name: "github",
+        message: "Enter his/her GitHub username:"
+        }
+    ])
+}
+
 function promptUser() {
-  
     return inquirer.prompt([
         {
         type: "input",
@@ -90,6 +111,26 @@ function promptUser() {
         type: "input",
         name: "email",
         message: "Enter your email address:"
+        },
+    ])
+ }
+
+function promptAdd() {
+    return inquirer.prompt([
+        {
+        type: "input",
+        name: "name",
+        message: "What is his or her name?"
+        },
+        {
+        type: "number",
+        name: "id",
+        message: "Enter their Employee ID #:"
+        },
+        {
+        type: "input",
+        name: "email",
+        message: "Enter their email address:"
         },
       ])
  }
