@@ -4,7 +4,11 @@ const Prompts = require("./lib/Prompts"),
       Intern = require("./lib/Intern"),
       prompt = new Prompts;
 
-//start application
+ let manager;
+ const engineers = [],
+ interns = [];
+
+ //start app
 (() => {
   return prompt.start();
 })()
@@ -20,10 +24,9 @@ async function newTeam() {
     prompt.manager().then(({ office }) => {
       m = new Manager(input.name, input.id, input.email, office);
       console.log(`\nNew manager: "${m.name}" has been added to the team.\n`);
-      m.add(m);
+      manager = m;
       prompt.ask().then(({ add }) =>
-          add ? addEmployee() : console.log(m.instances)
-        );
+          add ? addEmployee() : generateWeb());
     });
   } catch (err) {
     console.log(err);
@@ -41,24 +44,27 @@ async function addEmployee() {
           e = new Engineer(input.name, input.id, input.email, github);
           console.log(
             `\nNew engineer: "${e.name}" has been added to the team.\n`);
-
+            engineers.push(e);
           prompt.ask().then(({ add }) =>
-              add ? addEmployee() : console.log("Generating team roster...")
-            );
+              add ? addEmployee() : generateWeb());
         });
         break;
       default:
         prompt.intern().then(({ school }) => {
           i = new Intern(input.name, input.id, input.email, school);
           console.log(
-            `\nNew intern: "${i.name}" has been added to the team.\n`
-          );
+            `\nNew intern: "${i.name}" has been added to the team.\n`);
+           interns.push(i);
           prompt.ask().then(({ add }) =>
-              add ? addEmployee() : console.log("Generating team roster...")
-            );
+              add ? addEmployee() :  generateWeb());
         });
     }
   } catch (err) {
     console.log(err);
   }
 }
+
+function generateWeb() {
+  
+  console.log(engineers, interns, manager);
+ }
