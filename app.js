@@ -4,52 +4,61 @@ const Prompts = require("./lib/Prompts"),
       Intern = require("./lib/Intern"),
       prompt = new Prompts;
 
-(async () => {
-    return await prompt.start();
+//start application
+(() => {
+  return prompt.start();
+})()
+  .then(({ ready }) =>
+    ready ? newTeam() : console.log("Okay. we'll wait than..."))
+  .catch(err => console.log(err));
 
-})().then(({ ready }) => ready ? newTeam() : console.log('Okay. we\'ll wait than...'))
-.catch( err => console.log(err)) 
 
-function newTeam() {
+async function newTeam() {
   try {
-    prompt.user().then( input => {
-      prompt.manager().then(({ office }) => {
-        m = new Manager(input.name, input.id, input.email, office);
-        console.log(`\nNew manager: "${m.name}" has been added to the team.\n`);
+    const input = await prompt.user();
 
-        prompt.ask().then(({ add }) => 
-            add ? addEmployee() : console.log("Generating team webpage..."));
-      });
+    prompt.manager().then(({ office }) => {
+      m = new Manager(input.name, input.id, input.email, office);
+      console.log(`\nNew manager: "${m.name}" has been added to the team.\n`);
+      m.add(m);
+      prompt.ask().then(({ add }) =>
+          add ? addEmployee() : console.log(m.instances)
+        );
     });
-  } catch (err) {console.log(err)}
+  } catch (err) {
+    console.log(err);
+  }
 }
 
-  async function addEmployee() {
-    try{
-    const { role } = await prompt.type()
+async function addEmployee() {
+  try {
+    const { role } = await prompt.type(),
+      input = await prompt.add();
 
     switch (role[0]) {
-        case 'Engineer':
-            prompt.add().then( input => {
-                prompt.engineer().then(({ github }) => {
-                  e = new Engineer(input.name, input.id, input.email, github);
-                  console.log(`\nNew engineer: "${e.name}" has been added to the team.\n`);
+      case "Engineer":
+        prompt.engineer().then(({ github }) => {
+          e = new Engineer(input.name, input.id, input.email, github);
+          console.log(
+            `\nNew engineer: "${e.name}" has been added to the team.\n`);
 
-                  prompt.ask().then(({ add }) =>
-                    add ? addEmployee() : console.log("Generating team webpage..."));
-                });
-              });
-            break;
-        default:
-            prompt.add().then( input => {
-                prompt.intern().then(({ school }) => {
-                  i = new Intern(input.name, input.id, input.email, school);
-                  console.log(`\nNew intern: "${i.name}" has been added to the team.\n`);
-
-                  prompt.ask().then(({ add }) =>
-                    add ? addEmployee() : console.log("Generating team webpage..."));
-                });
-              });
-        };
-    } catch(err){console.log(err)}
- }
+          prompt.ask().then(({ add }) =>
+              add ? addEmployee() : console.log("Generating team roster...")
+            );
+        });
+        break;
+      default:
+        prompt.intern().then(({ school }) => {
+          i = new Intern(input.name, input.id, input.email, school);
+          console.log(
+            `\nNew intern: "${i.name}" has been added to the team.\n`
+          );
+          prompt.ask().then(({ add }) =>
+              add ? addEmployee() : console.log("Generating team roster...")
+            );
+        });
+    }
+  } catch (err) {
+    console.log(err);
+  }
+}
