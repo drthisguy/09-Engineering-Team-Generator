@@ -2,6 +2,7 @@ const Prompts = require("./lib/Prompts"),
       Manager = require("./lib/Manager"),
       Engineer = require("./lib/Engineer"),
       Intern = require("./lib/Intern"),
+      Template = require("./lib/templates"),
       prompt = new Prompts;
 
  let manager;
@@ -65,6 +66,13 @@ async function addEmployee() {
 }
 
 function generateWeb() {
-  
-  console.log(engineers, interns, manager);
+  const template = new Template(),
+    engCards = [];
+  let outputHTML = template.main(manager);
+
+    for (let engineer of engineers) {
+      const card = template.engineer(engineer);
+      engCards.push(card);
+    }
+    
  }
