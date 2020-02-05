@@ -1,8 +1,9 @@
-const Prompts = require("./lib/Prompts"),
-      Manager = require("./lib/Manager"),
-      Engineer = require("./lib/Engineer"),
-      Intern = require("./lib/Intern"),
-      Template = require("./lib/templates"),
+const Prompts = require('./lib/Prompts'),
+      Manager = require('./lib/Manager'),
+      Engineer = require('./lib/Engineer'),
+      Intern = require('./lib/Intern'),
+      Template = require('./lib/templates'),
+      fs = require('fs'),
       prompt = new Prompts;
 
  let manager;
@@ -81,8 +82,11 @@ function generateWeb() {
     let cards = cardsArr.join();
       cards = cards.replace(",", "");
 
-    const outputHTML = template.main(manager, cards);
-
-    console.log(outputHTML);
+      const outputHTML = template.main(manager, cards);
+      
+      fs.writeFile('myteam.html', outputHTML, function (err) {
+      if (err) throw err;
+      console.log('Team Roster Generated!');
+    });
 
  }

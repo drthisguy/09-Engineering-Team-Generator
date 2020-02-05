@@ -1,7 +1,4 @@
-class Templates {
 
-    main(manager, cards) {
-        return `
         <!DOCTYPE html>
         <html lang="en">
         
@@ -10,7 +7,7 @@ class Templates {
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <meta http-equiv="X-UA-Compatible" content="ie=edge">
             <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootswatch/4.4.1/spacelab/bootstrap.min.css">
-            <title>Team Generator</title>
+            <title>Team Profiler</title>
         </head>
         
         <body>
@@ -18,7 +15,7 @@ class Templates {
             </nav>
             <section class="container mt-5">
                 <div class="card text-center bg-primary">
-                    <div class="card-header text-white"> Team Generator </div>
+                    <div class="card-header text-white"> Team Profiler </div>
                     <div class="jumbotron">
                         <h1 class="display-3">Meet Your Engineering Team</h1>
                         <p class="lead">A quick look at the people you'll be working with.</p>
@@ -32,15 +29,36 @@ class Templates {
                             <div class="card border-dark m-3 md-4" style="max-width: 20rem;">
                               <div class="card-header">Team Manager</div>
                               <div class="card-body">
-                                <h4 class="card-title">${manager.name}</h4>
-                                <p class="card-text text-left">Email: ${manager.email}</p>
-                                <p class="card-text text-left">Emplyoyee id #: ${manager.id}</p>
-                                <p class="card-text text-left">Office Room #: ${manager.office}</p>
+                                <h4 class="card-title">Page</h4>
+                                <p class="card-text text-left">Email: email@email.com</p>
+                                <p class="card-text text-left">Emplyoyee id #: 343</p>
+                                <p class="card-text text-left">Office Room #: undefined</p>
                               </div>
                             </div>
                           </div>
 
-                          ${cards}
+                          
+        <div class="col md-3">
+        <div class="card border-primary m-3" style="max-width: 20rem;">
+          <div class="card-header">Engineer</div>
+          <div class="card-body">
+            <h4 class="card-title">Dana</h4>
+            <p class="card-text text-left">Email: dana@thisplace.com</p>
+            <p class="card-text text-left">Emplyoyee id #: Dana</p>
+            <p class="card-text text-left">Github Profile: github</p>
+          </div>
+        </div>
+      </div>
+        <div class="col md-3">
+        <div class="card border-primary m-3" style="max-width: 20rem;">
+          <div class="card-header">Intern</div>
+          <div class="card-body">
+            <h4 class="card-title">jason</h4>
+            <p class="card-text text-left">Email: jSON@somewhere.edu</p>
+            <p class="card-text text-left">Emplyoyee id #: jason</p> <p class="card-text text-left">Github Profile: somewhere</p>
+          </div>
+        </div>
+      </div>
 
                          </div>
                         </div>
@@ -49,39 +67,4 @@ class Templates {
                   <div class="card-footer"> &copy; 2020 Version 1.0.0 </div>
               </section>
             </body>
-          </html> `
-         
-                   
-    }
-
-
-    engineer(engineer) {
-        return `
-        <div class="col md-3">
-        <div class="card border-primary m-3" style="max-width: 20rem;">
-          <div class="card-header">Engineer</div>
-          <div class="card-body">
-            <h4 class="card-title">${engineer.name}</h4>
-            <p class="card-text text-left">Email: ${engineer.email}</p>
-            <p class="card-text text-left">Emplyoyee id #: ${engineer.name}</p>
-            <p class="card-text text-left">Github Profile: ${engineer.github}</p>
-          </div>
-        </div>
-      </div>`
-    }
-
-    intern(intern) {
-        return `
-        <div class="col md-3">
-        <div class="card border-primary m-3" style="max-width: 20rem;">
-          <div class="card-header">Intern</div>
-          <div class="card-body">
-            <h4 class="card-title">${intern.name}</h4>
-            <p class="card-text text-left">Email: ${intern.email}</p>
-            <p class="card-text text-left">Emplyoyee id #: ${intern.name}</p> <p class="card-text text-left">School: ${intern.school}</p>
-          </div>
-        </div>
-      </div>`
-    }
-}
-module.exports = Templates;
+          </html> 
