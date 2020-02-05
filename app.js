@@ -67,12 +67,22 @@ async function addEmployee() {
 
 function generateWeb() {
   const template = new Template(),
-    engCards = [];
-  let outputHTML = template.main(manager);
+    cardsArr = [];
 
     for (let engineer of engineers) {
       const card = template.engineer(engineer);
-      engCards.push(card);
+      cardsArr.push(card);
     }
-    
+    for (let intern of interns) {
+      const card = template.intern(intern);
+      cardsArr.push(card);
+    }
+  
+    let cards = cardsArr.join();
+      cards = cards.replace(",", "");
+
+    const outputHTML = template.main(manager, cards);
+
+    console.log(outputHTML);
+
  }
