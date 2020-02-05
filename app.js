@@ -67,6 +67,8 @@ async function addEmployee() {
 }
 
 function generateWeb() {
+  console.log('Generating html...\n');
+
   const template = new Template(),
     cardsArr = [];
 
@@ -78,15 +80,15 @@ function generateWeb() {
       const card = template.intern(intern);
       cardsArr.push(card);
     }
-  
-    let cards = cardsArr.join();
-      cards = cards.replace(",", "");
-
-      const outputHTML = template.main(manager, cards);
+    
+    let cards = cardsArr.join().replace(/,/g, "")
+    
+    
+    const outputHTML = template.main(manager, cards);
       
       fs.writeFile('myteam.html', outputHTML, function (err) {
       if (err) throw err;
-      console.log('Team Roster Generated!');
+      console.log('Team Roster Done!');
     });
 
  }
