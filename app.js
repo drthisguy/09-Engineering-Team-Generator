@@ -2,7 +2,7 @@ const Prompts = require('./lib/Prompts'),
       Manager = require('./lib/Manager'),
       Engineer = require('./lib/Engineer'),
       Intern = require('./lib/Intern'),
-      Template = require('./lib/templates'),
+      Template = require('./lib/Templates'),
       fs = require('fs'),
       prompt = new Prompts;
 
@@ -40,7 +40,7 @@ async function addEmployee() {
     const { role } = await prompt.type(),
       input = await prompt.add();
 
-    switch (role[0]) {
+    switch (role) {
       case "Engineer":
         prompt.engineer().then(({ github }) => {
           e = new Engineer(input.name, input.id, input.email, github);
