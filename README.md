@@ -28,13 +28,16 @@ README.md
 
 # GitHub Repo:
 
-https://github.com/drthisguy/Homework-9
+https://github.com/drthisguy/09-Engineering-Team-Generator
 
 
 # Screen Grabs:
-https://user-images.githubusercontent.com/48693333/74000729-1acea280-4937-11ea-924f-9cb109dd0acb.png
+![image](https://user-images.githubusercontent.com/48693333/74000729-1acea280-4937-11ea-924f-9cb109dd0acb.png)
 
-https://user-images.githubusercontent.com/48693333/74000856-8e70af80-4937-11ea-98cc-c8da6e875cd7.png
+![image](https://user-images.githubusercontent.com/48693333/74000856-8e70af80-4937-11ea-98cc-c8da6e875cd7.png)
+
+# Use:
+Type: npm start
 
 # Sources, issues and contact:
 
